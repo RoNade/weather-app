@@ -7,8 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:background="#fffc970b">
+    android:background="@drawable/bg_gradient">
 
     <TextView
         android:id="@+id/temperatureLabel"
@@ -18,7 +17,7 @@
         android:layout_centerVertical="true"
         android:text="--"
         android:textColor="@android:color/white"
-        android:textSize="150sp" />
+        android:textSize="120sp" />
 
     <ImageView
         android:id="@+id/degreeImageView"
@@ -122,13 +121,14 @@
 
     <TextView
         android:id="@+id/summaryLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="13dp"
         android:gravity="center_horizontal"
         android:text="Getting current weather..."
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="18dp" />
 
@@ -149,5 +149,35 @@
         android:layout_alignBottom="@+id/refreshImageView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/hourlyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:text="HOURLY"
+            android:textAlignment="center"
+            android:textColor="#ffffffff" />
+
+        <Button
+            android:id="@+id/dailyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#40ffffff"
+            android:paddingHorizontal="10dp"
+            android:text="7 DAY"
+            android:textColor="#ffffffff"
+            android:layout_marginLeft="2dp"/>
+    </LinearLayout>
 
 </RelativeLayout>
