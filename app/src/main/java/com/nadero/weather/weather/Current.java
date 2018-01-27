@@ -1,6 +1,4 @@
-package com.nadero.stormy.weather;
-
-import com.nadero.stormy.R;
+package com.nadero.weather.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +8,7 @@ public class Current {
     private long mTime;
     private String mIcon;
     private String mSummary;
+    private String mLocation;
     private double mHumidity;
     private double mTemperature;
     private double mPrecipChance;
@@ -34,6 +33,14 @@ public class Current {
 
     public int getIconId() {
         return Forecast.geticonId(mIcon);
+    }
+
+    public String getLocation() {
+        return mLocation;
+    }
+
+    public void setLocation(String location) {
+        mLocation = location;
     }
 
     public long getTime() {

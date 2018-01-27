@@ -20,14 +20,34 @@
         android:textSize="24sp"
         tools:text="12 PM" />
 
-    <ImageView
-        android:id="@+id/iconImageView"
+    <LinearLayout
+        android:gravity="center"
+        android:layout_toRightOf="@id/timeLabel"
+        android:layout_toEndOf="@id/timeLabel"
+        android:layout_toStartOf="@id/temperatureLabel"
+        android:layout_toLeftOf="@id/temperatureLabel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/timeLabel"
-        android:layout_toRightOf="@+id/timeLabel"
-        app:srcCompat="@drawable/partly_cloudy" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/partly_cloudy" />
+
+        <TextView
+            android:id="@+id/summarylabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#ffffffff"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            tools:text="Partly cloudy" />
+
+    </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/temperatureLabel"
@@ -39,18 +59,4 @@
         android:textColor="#ffffffff"
         android:textSize="24sp"
         tools:text="100" />
-
-    <TextView
-        android:id="@+id/summarylabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/iconImageView"
-        android:layout_toRightOf="@+id/iconImageView"
-        android:layout_toStartOf="@id/temperatureLabel"
-        android:layout_toLeftOf="@id/temperatureLabel"
-        android:textColor="#ffffffff"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        tools:text="Partly cloudy" />
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.nadero.stormy;
+package com.nadero.weather;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

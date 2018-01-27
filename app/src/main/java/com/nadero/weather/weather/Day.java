@@ -1,4 +1,4 @@
-package com.nadero.stormy.weather;
+package com.nadero.weather.weather;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,10 +9,11 @@ import java.util.TimeZone;
 
 public class Day implements Parcelable {
     private long mTime;
-    private String mSummary;
-    private double mTemperatureMax;
     private String mIcon;
+    private String mSummary;
+    private String mLocation;
     private String mTimezone;
+    private double mTemperatureMax;
 
     public Day() {}
 
@@ -48,6 +49,14 @@ public class Day implements Parcelable {
         mIcon = icon;
     }
 
+    public String getLocation() {
+        return mLocation;
+    }
+
+    public void setLocation(String location) {
+        mLocation = location;
+    }
+
     public String getTimezone() {
         return mTimezone;
     }
@@ -77,6 +86,7 @@ public class Day implements Parcelable {
         dest.writeLong(mTime);
         dest.writeString(mIcon);
         dest.writeString(mSummary);
+        dest.writeString(mLocation);
         dest.writeString(mTimezone);
         dest.writeDouble(mTemperatureMax);
     }
@@ -86,6 +96,7 @@ public class Day implements Parcelable {
         mTime = input.readLong();
         mIcon = input.readString();
         mSummary = input.readString();
+        mLocation = input.readString();
         mTimezone = input.readString();
         mTemperatureMax = input.readDouble();
     }

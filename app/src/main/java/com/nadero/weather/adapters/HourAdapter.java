@@ -1,4 +1,4 @@
-package com.nadero.stormy.adapters;
+package com.nadero.weather.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nadero.stormy.R;
-import com.nadero.stormy.weather.Hour;
+import com.nadero.weather.R;
+import com.nadero.weather.weather.Hour;
 
 import android.view.View;
 import android.widget.Toast;

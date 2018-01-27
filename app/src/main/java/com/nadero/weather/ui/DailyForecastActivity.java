@@ -1,9 +1,9 @@
-package com.nadero.stormy.ui;
+package com.nadero.weather.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import com.nadero.stormy.R;
+import com.nadero.weather.R;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,8 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nadero.stormy.adapters.DayAdapter;
-import com.nadero.stormy.weather.Day;
+import com.nadero.weather.adapters.DayAdapter;
+import com.nadero.weather.weather.Day;
 
 import java.util.Arrays;
 
@@ -24,6 +24,7 @@ public class DailyForecastActivity extends Activity {
 
     @BindView(android.R.id.list) ListView mListView;
     @BindView(android.R.id.empty) TextView mEmptyTextView;
+    @BindView(R.id.locationLabel) TextView mLocationLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,9 @@ public class DailyForecastActivity extends Activity {
         Intent intent = getIntent();
         Parcelable[] parcelables = intent.getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
         mDays = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
+
+        String locationLabel = mDays[0].getLocation();
+        mLocationLabel.setText(locationLabel);
 
         DayAdapter adapter = new DayAdapter(this, mDays);
         mListView.setAdapter(adapter);

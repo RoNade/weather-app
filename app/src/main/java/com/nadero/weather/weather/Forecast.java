@@ -1,7 +1,7 @@
-package com.nadero.stormy.weather;
+package com.nadero.weather.weather;
 
 
-import com.nadero.stormy.R;
+import com.nadero.weather.R;
 
 public class Forecast {
     private Current mCurrent;

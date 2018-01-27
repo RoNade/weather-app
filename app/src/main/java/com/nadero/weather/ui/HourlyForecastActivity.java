@@ -1,11 +1,11 @@
-package com.nadero.stormy.ui;
+package com.nadero.weather.ui;
 
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import com.nadero.stormy.R;
-import com.nadero.stormy.adapters.HourAdapter;
-import com.nadero.stormy.weather.Hour;
+import com.nadero.weather.R;
+import com.nadero.weather.adapters.HourAdapter;
+import com.nadero.weather.weather.Hour;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;

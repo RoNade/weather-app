@@ -1,4 +1,4 @@
-package com.nadero.stormy.weather;
+package com.nadero.weather.weather;
 
 import android.os.Parcel;
 import android.os.Parcelable;

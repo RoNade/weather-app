@@ -1,4 +1,4 @@
-package com.nadero.stormy;
+package com.nadero.weather;
 
 import org.junit.Test;
 

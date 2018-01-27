@@ -1,4 +1,4 @@
-package com.nadero.stormy.adapters;
+package com.nadero.weather.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nadero.stormy.R;
-import com.nadero.stormy.weather.Day;
+import com.nadero.weather.R;
+import com.nadero.weather.weather.Day;
 
 public class DayAdapter extends BaseAdapter {
 

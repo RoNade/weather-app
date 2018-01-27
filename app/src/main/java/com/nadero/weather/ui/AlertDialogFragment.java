@@ -1,4 +1,4 @@
-package com.nadero.stormy.ui;
+package com.nadero.weather.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,7 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.nadero.stormy.R;
+import com.nadero.weather.R;
 
 public class AlertDialogFragment extends DialogFragment {
     @Override

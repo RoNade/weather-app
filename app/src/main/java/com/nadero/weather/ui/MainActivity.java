@@ -1,10 +1,18 @@
-package com.nadero.stormy.ui;
+package com.nadero.weather.ui;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,11 +22,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nadero.stormy.R;
-import com.nadero.stormy.weather.Current;
-import com.nadero.stormy.weather.Day;
-import com.nadero.stormy.weather.Forecast;
-import com.nadero.stormy.weather.Hour;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.nadero.weather.R;
+import com.nadero.weather.constants.Constants;
+import com.nadero.weather.services.FetchAddressIntentService;
+import com.nadero.weather.weather.Current;
+import com.nadero.weather.weather.Day;
+import com.nadero.weather.weather.Forecast;
+import com.nadero.weather.weather.Hour;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,12 +62,21 @@ import okhttp3.TlsVersion;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
-    public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final String HOURLY_FORECAST = "HOURLY_FORECAST";
-
+    public static final String DAILY_FORECAST = "DAILY_FORECAST";
+    public static final int LOCATION_REQUEST_FOR_PERMISSION = 1;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private String mLocality = "Unknown locality";
+    private double mLongitude = -122.4233;
+    private double mLatitude = 37.8267;
     private Forecast mForecast;
 
+    LocationRequest locationRequest;
+    LocationCallback locationCallback;
+    AddressBroadcastReceiver addressBroadcastReceiver;
+
     @BindView(R.id.timeLabel) TextView mTimeLabel;
+    @BindView(R.id.locationLabel) TextView mLocationLabel;
     @BindView(R.id.temperatureLabel) TextView mTemperatureLabel;
     @BindView(R.id.humidityValue) TextView mHumidityValue;
     @BindView(R.id.precipValue) TextView mPrecipValue;
@@ -65,23 +90,86 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
+        ButterKnife.bind(MainActivity.this);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        final double latitude = 37.8267;
-        final double  longitude = -122.4233;
+        boolean locationEnabled = isLocationAvailable();
+
+        mFusedLocationClient = LocationServices
+                .getFusedLocationProviderClient(this);
+
+        locationRequest = new LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setFastestInterval(15 * 1000)
+                .setInterval(30 * 1000);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                toggleRefresh();
+                if(locationResult != null) getLocalityFromLocation(locationResult.getLastLocation());
+            }
+        };
+
+        IntentFilter filter = new IntentFilter(Constants.ADDRESS_FROM_LOCATION);
+        addressBroadcastReceiver = new AddressBroadcastReceiver();
+        registerReceiver(addressBroadcastReceiver, filter);
+
+        if(locationEnabled) {
+            updateLocation();
+        } else {
+           requestLocationPermission();
+        }
 
         mRefreshImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getForecast(latitude, longitude);
+                getForecast(mLatitude, mLongitude);
             }
         });
 
-        getForecast(latitude, longitude);
-
         Log.d(TAG, "Main UI code is running!");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        stopLocationUpdates();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        boolean locationEnabled = isLocationAvailable();
+
+        if(locationEnabled) {
+            startLocationUpdates();
+        }
+        else {
+            requestLocationPermission();
+        }
+    }
+
+    public void requestLocationPermission() {
+        String[] permissions = {
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+        ActivityCompat.requestPermissions(MainActivity.this, permissions, LOCATION_REQUEST_FOR_PERMISSION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == LOCATION_REQUEST_FOR_PERMISSION && grantResults.length > 0) {
+            if(grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                MainActivity.this.finish();
+                System.exit(0);
+            }
+            updateLocation();
+        }
     }
 
     private void getForecast(double latitude, double longitude) {
@@ -100,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
                 .cipherSuites(CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA)
                 .build();
 
+        Log.d(TAG, forecastUrl);
+
         if (isNetworkAvailable()) {
             toggleRefresh();
 
@@ -116,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -127,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -176,6 +266,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void updateLocation() throws SecurityException {
+        Log.d(TAG, "updateLocation......");
+        toggleRefresh();
+
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if(location != null) { getLocalityFromLocation(location); }
+                    }
+                });
+    }
+
+    private void startLocationUpdates() throws SecurityException {
+        Log.d(TAG, "startLocationUpdates......");
+
+        mFusedLocationClient
+                .requestLocationUpdates(locationRequest, locationCallback, null);
+    }
+
+    private void stopLocationUpdates() {
+        Log.d(TAG,"stopLocationUpdates......");
+
+        mFusedLocationClient
+                .removeLocationUpdates(locationCallback);
+    }
+
+    private void startIntentService(Location location) {
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+        intent.setAction(Constants.LOCATION_EXTRA);
+        intent.putExtra(Constants.DATA, location);
+
+        startService(intent);
+    }
+
     private void updateDisplay() {
         Current current = mForecast.getCurrent();
         mTemperatureLabel.setText(String.format("%1$s", current.getTemperature()));
@@ -183,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
         mHumidityValue.setText(String.format("%1$s", current.getHumidity()));
         mPrecipValue.setText(String.format("%1$s%2$s", current.getPrecipChance(), "%"));
         mSummarylabel.setText(current.getSummary());
+        mLocationLabel.setText(mLocality);
 
         Drawable drawable = getResources().getDrawable(current.getIconId());
         mIconImageView.setImageDrawable(drawable);
@@ -208,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jsonDay = data.optJSONObject(index);
             Day day = new Day();
 
+            day.setLocation(mLocality);
             day.setTime(jsonDay.getLong("time"));
             day.setIcon(jsonDay.getString("icon"));
             day.setSummary(jsonDay.getString("summary"));
@@ -242,6 +369,12 @@ public class MainActivity extends AppCompatActivity {
         return hours;
     }
 
+    private void getLocalityFromLocation(Location location) {
+        mLongitude = location.getLongitude();
+        mLatitude = location.getLatitude();
+        startIntentService(location);
+    }
+
     private Current getCurrentDetails(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         JSONObject currently = forecast.getJSONObject("currently");
@@ -254,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
         current.setHumidity(currently.getDouble("humidity"));
         current.setTemperature(currently.getDouble("temperature"));
         current.setPrecipChance(currently.getDouble("precipProbability"));
+        current.setLocation(mLocality);
 
         Log.d(TAG, current.getFormattedTime());
 
@@ -264,6 +398,22 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = (manager != null) ? manager.getActiveNetworkInfo() : null;
         return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private boolean isLocationAvailable() {
+        final int GRANTED = PackageManager.PERMISSION_GRANTED;
+
+        final String[] permissions = {
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+
+        int finePermission = ContextCompat
+                .checkSelfPermission(MainActivity.this, permissions[1]);
+        int coarsePermission = ContextCompat
+                .checkSelfPermission(MainActivity.this, permissions[0]);
+
+        return finePermission == GRANTED && coarsePermission == GRANTED;
     }
 
     private void alertUserAboutError() {
@@ -283,5 +433,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HourlyForecastActivity.class);
         intent.putExtra(HOURLY_FORECAST, mForecast.getHourlyForecast());
         startActivity(intent);
+    }
+
+    public class AddressBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            toggleRefresh();
+            String action = intent.getAction();
+            int responseCode = intent.getIntExtra(Constants.RESPONSE, 0);
+
+            if(action != null && action.equals(Constants.ADDRESS_FROM_LOCATION)) {
+                if(responseCode == Constants.SUCCES_RESULT) {
+                    mLocality = intent.getStringExtra(Constants.DATA);
+                    getForecast(mLatitude, mLongitude);
+                }
+            }
+        }
     }
 }
