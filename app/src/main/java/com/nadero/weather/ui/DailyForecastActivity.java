@@ -1,10 +1,13 @@
 package com.nadero.weather.ui;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import com.nadero.weather.R;
 import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,7 +22,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DailyForecastActivity extends Activity {
+public class DailyForecastActivity extends AppCompatActivity {
     private Day[] mDays;
 
     @BindView(android.R.id.list) ListView mListView;
@@ -56,5 +59,34 @@ public class DailyForecastActivity extends Activity {
                 Toast.makeText(DailyForecastActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.home:
+                Intent homeIntent = new Intent(DailyForecastActivity.this, MainActivity.class);
+                startActivity(homeIntent);
+                break;
+            case R.id.about:
+                new AlertDialog.Builder(DailyForecastActivity.this, R.style.Theme_Custom_Dialog_Alert)
+                        .setNegativeButton("CANCEL", null)
+                        .setMessage(R.string.about_message)
+                        .setTitle(R.string.about_title)
+                        .setPositiveButton("OK", null)
+                        .show();
+                break;
+            default:
+                Toast.makeText(DailyForecastActivity.this, "Unknown option", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return true;
     }
 }

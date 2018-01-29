@@ -1,6 +1,7 @@
 package com.nadero.weather.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -150,6 +153,35 @@ public class MainActivity extends AppCompatActivity {
         else {
             requestLocationPermission();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.home:
+                Intent homeIntent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(homeIntent);
+                break;
+            case R.id.about:
+                new AlertDialog.Builder(MainActivity.this, R.style.Theme_Custom_Dialog_Alert)
+                    .setNegativeButton("CANCEL", null)
+                    .setMessage(R.string.about_message)
+                    .setTitle(R.string.about_title)
+                    .setPositiveButton("OK", null)
+                    .show();
+                break;
+            default:
+                Toast.makeText(MainActivity.this, "Unknown option", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return true;
     }
 
     public void requestLocationPermission() {

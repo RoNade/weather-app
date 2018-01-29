@@ -13,7 +13,7 @@ public class AlertDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT)
                 .setTitle(R.string.error_title)
                 .setMessage(R.string.error_message)
                 .setPositiveButton(R.string.error_ok_button, null);
