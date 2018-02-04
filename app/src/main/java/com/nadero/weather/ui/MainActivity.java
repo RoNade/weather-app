@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String DAILY_FORECAST = "DAILY_FORECAST";
     public static final int LOCATION_REQUEST_FOR_PERMISSION = 1;
     private FusedLocationProviderClient mFusedLocationClient;
-    private String mLocality = "Unknown locality";
     private double mLongitude = -122.4233;
     private double mLatitude = 37.8267;
     private Forecast mForecast;
+    private String mLocality;
 
     LocationRequest locationRequest;
     LocationCallback locationCallback;
@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(MainActivity.this);
         mProgressBar.setVisibility(View.INVISIBLE);
+
+        mLocality = getString(R.string.unknown_locality);
 
         boolean locationEnabled = isLocationAvailable();
 
@@ -170,10 +172,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.about:
                 new AlertDialog.Builder(MainActivity.this, R.style.Theme_Custom_Dialog_Alert)
-                    .setNegativeButton("CANCEL", null)
+                    .setNegativeButton(R.string.alertdialog_button_cancel, null)
                     .setMessage(R.string.about_message)
                     .setTitle(R.string.about_title)
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton(R.string.error_ok_button, null)
                     .show();
                 break;
             default:
@@ -252,9 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     runOnUiThread(new Runnable() {
                         @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
+                        public void run() { toggleRefresh();}
                     });
                     try {
                         ResponseBody responseBody = response.body();
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateDisplay() {
         Current current = mForecast.getCurrent();
         mTemperatureLabel.setText(String.format("%1$s", current.getTemperature()));
-        mTimeLabel.setText(String.format("At %1$s it will be", current.getFormattedTime()));
+        mTimeLabel.setText(String.format(getString(R.string.main_time_label), current.getFormattedTime()));
         mHumidityValue.setText(String.format("%1$s", current.getHumidity()));
         mPrecipValue.setText(String.format("%1$s%2$s", current.getPrecipChance(), "%"));
         mSummarylabel.setText(current.getSummary());
@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public class AddressBroadcastReceiver extends BroadcastReceiver {
+    private class AddressBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             toggleRefresh();

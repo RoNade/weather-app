@@ -50,7 +50,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="This Week's Weather"
+        android:text="@string/this_week_weather"
         android:textAlignment="center"
         android:textColor="#ffffffff"
         android:textSize="30sp" />
@@ -62,7 +62,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="Getting location..."
+        android:text="@string/getting_location"
         android:textColor="#ffffffff"
         android:textSize="20sp" />
 

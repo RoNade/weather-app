@@ -71,7 +71,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             String temperature = mTemperatureLabel.getText().toString();
             String summary = mSummaryLabel.getText().toString();
 
-            String message = String.format("At %1$s it will be %2$s and %3$s",
+            String message = String.format(mContext.getString(R.string.toast_hourly),
                     time, temperature, summary);
 
             Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();

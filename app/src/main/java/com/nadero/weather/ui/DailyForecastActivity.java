@@ -18,6 +18,7 @@ import com.nadero.weather.adapters.DayAdapter;
 import com.nadero.weather.weather.Day;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +54,7 @@ public class DailyForecastActivity extends AppCompatActivity {
                 String dayOfTheWeek = mDays[position].getDayOfTheWeek();
                 String conditions = mDays[position].getSummary();
 
-                String message = String.format("On %1$s the high will be %2$s and it will be %3$s",
+                String message = String.format(getString(R.string.toast_weekly),
                         dayOfTheWeek, highTemp, conditions);
 
                 Toast.makeText(DailyForecastActivity.this, message, Toast.LENGTH_LONG).show();
@@ -76,10 +77,10 @@ public class DailyForecastActivity extends AppCompatActivity {
                 break;
             case R.id.about:
                 new AlertDialog.Builder(DailyForecastActivity.this, R.style.Theme_Custom_Dialog_Alert)
-                        .setNegativeButton("CANCEL", null)
+                        .setNegativeButton(R.string.alertdialog_button_cancel, null)
                         .setMessage(R.string.about_message)
                         .setTitle(R.string.about_title)
-                        .setPositiveButton("OK", null)
+                        .setPositiveButton(R.string.error_ok_button, null)
                         .show();
                 break;
             default:

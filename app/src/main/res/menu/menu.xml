@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/home"
-        android:title="got to main activity..."
+        android:title="@string/menu_home"
         android:icon="@drawable/ic_action_home"
         app:showAsAction="always"
         />
 
     <item
         android:id="@+id/about"
-        android:title="info about the application..."
+        android:title="@string/menu_about"
         android:icon="@drawable/ic_action_info"
         app:showAsAction="always"
         />

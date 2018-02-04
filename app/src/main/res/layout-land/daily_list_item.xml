@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="25dp"
+    android:paddingStart="25dp"
+    android:paddingRight="25dp"
+    android:paddingEnd="25dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:background="#ffaa00">
+
+    <ImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/iconImageView"
+        android:layout_toLeftOf="@id/iconImageView"
+        android:src="@drawable/bg_temperature" />
+
+    <ImageView
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:id="@+id/iconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/clear_day" />
+
+    <TextView
+        android:id="@+id/dayNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/iconImageView"
+        android:layout_toRightOf="@+id/iconImageView"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        tools:text="Wednesday" />
+
+    <TextView
+        android:id="@+id/temperatureLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/circleImageView"
+        android:layout_alignBottom="@id/circleImageView"
+        android:layout_alignLeft="@id/circleImageView"
+        android:layout_alignStart="@id/circleImageView"
+        android:layout_alignRight="@id/circleImageView"
+        android:layout_alignEnd="@id/circleImageView"
+        android:gravity="center"
+        android:textColor="#f25019"
+        tools:text="100" />
+</RelativeLayout>

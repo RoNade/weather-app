@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="error_title">Oops ! Désolé!</string>
+    <string name="error_message">Une erreur s\'est produite. Merci de réessayer.</string>
+    <string name="error_ok_button">OK</string>
+    <string name="network_unavailable_message">Network is unavailable!</string>
+    <string name="no_daily_forecast_data">There is no data to display</string>
+    <string name="about_message">Cette application à été mise au point par Romain NADE et Romain FERGA pour le cours sur le développement android de Jonas Evenisse à IN\'TECH INFO Paris</string>
+    <string name="about_title">A propos de cette application</string>
+    <string name="unknown_locality">Lieu inconnu</string>
+    <string name="alertdialog_button_cancel">ANNULER</string>
+    <string name="main_time_label">A %1$s il fera</string>
+    <string name="getting_current_location">Recherche localisation...</string>
+    <string name="humidity">HUMIDITÉ</string>
+    <string name="rain_snow">PLUIE/NEIGE?</string>
+    <string name="getting_current_weather">Récupération des données météo...</string>
+    <string name="hourly_button">PAR HEURE</string>
+    <string name="weekly_button">7 JOURS</string>
+    <string name="this_week_weather">Météo sur sept jours</string>
+    <string name="getting_location">Localisation...</string>
+    <string name="menu_home">retour à la page d\'accueil...</string>
+    <string name="menu_about">infos sur l\'application...</string>
+    <string name="toast_weekly">%1$s la température maximale sera de %2$s°F</string>
+    <string name="toast_hourly">A %1$s il fera %2$s°F</string>
+    <string name="today">Today</string>
+</resources>

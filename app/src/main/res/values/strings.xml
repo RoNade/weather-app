@@ -7,4 +7,20 @@
     <string name="no_daily_forecast_data">There is no data to display</string>
     <string name="about_message">This application has been designed by Romain NADE and Romain FERGA for Jonas Evenisse course on mobile development at IN\'TECH INFO Paris</string>
     <string name="about_title">About this application</string>
+    <string name="unknown_locality">Unknown locality</string>
+    <string name="alertdialog_button_cancel">@android:string/cancel</string>
+    <string name="main_time_label">At %1$s it will be</string>
+    <string name="getting_current_location">Getting current location...</string>
+    <string name="humidity">HUMIDITY</string>
+    <string name="rain_snow">RAIN/SNOW?</string>
+    <string name="getting_current_weather">Getting current weather...</string>
+    <string name="hourly_button">HOURLY</string>
+    <string name="weekly_button">7 DAY</string>
+    <string name="this_week_weather">This Week\'s Weather</string>
+    <string name="getting_location">Getting location...</string>
+    <string name="menu_home">go to main activity...</string>
+    <string name="menu_about">info about the application...</string>
+    <string name="toast_weekly">On %1$s the high will be %2$s and it will be %3$s</string>
+    <string name="toast_hourly">At %1$s it will be %2$s and %3$s</string>
+    <string name="today">Today</string>
 </resources>

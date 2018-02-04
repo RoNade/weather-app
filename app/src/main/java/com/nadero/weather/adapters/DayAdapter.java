@@ -58,7 +58,7 @@ public class DayAdapter extends BaseAdapter {
         Day day = mDays[position];
 
         if (position == 0) {
-            holder.dayLabel.setText("Today");
+            holder.dayLabel.setText(R.string.today);
         }
         else {
             holder.dayLabel.setText(day.getDayOfTheWeek());

@@ -59,10 +59,10 @@ public class HourlyForecastActivity extends AppCompatActivity {
                 break;
             case R.id.about:
                 new AlertDialog.Builder(HourlyForecastActivity.this, R.style.Theme_Custom_Dialog_Alert)
-                        .setNegativeButton("CANCEL", null)
+                        .setNegativeButton(R.string.alertdialog_button_cancel, null)
                         .setMessage(R.string.about_message)
                         .setTitle(R.string.about_title)
-                        .setPositiveButton("OK", null)
+                        .setPositiveButton(R.string.error_ok_button, null)
                         .show();
                 break;
             default:

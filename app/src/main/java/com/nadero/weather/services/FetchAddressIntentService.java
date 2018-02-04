@@ -52,12 +52,13 @@ public class FetchAddressIntentService extends IntentService {
             }
             else {
                 Address address = (addresses.size() > 1) ? addresses.get(1) : addresses.get(0);
+                String countryName = address.getCountryName();
+                String locality = address.getLocality();
 
-                String locationLabel = String.format(
-                        "%1$s, %2$s",
-                        address.getLocality(),
-                        address.getCountryName()
-                );
+                countryName = (countryName != null) ? countryName : "Unknown";
+                locality = (locality != null) ? locality : "Unknown";
+
+                String locationLabel = String.format("%1$s, %2$s", locality, countryName);
 
                 Log.d(TAG, "address found: " + locationLabel);
                 deliverMessageToReceiver(Constants.SUCCES_RESULT, locationLabel);
